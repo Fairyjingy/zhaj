@@ -176,6 +176,18 @@ export default {
   methods: {
     addInfo(){
       this.drawer=true;
+      this.disabled-false;
+        this.addData={
+         courseId: "",
+          time1: "",
+          courseName: "",
+          courseMan: "",//风险级别
+          time2: "",//控制措施
+          address: "",//涉及相关方
+          count: "",//所属施工阶段
+          type: "",//检查项归类
+      },
+        this.drawerTitle="新增清单";
     }, 
     handleClose(done) {
           this.drawer = false

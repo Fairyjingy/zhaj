@@ -54,7 +54,7 @@
     <el-drawer
     style="width:50%;margin:80px auto;"
     class="safeSkillDrawer"
-  title="审批"
+  :title="drawerTitle"
   :visible.sync="drawer"
   :direction="direction"
   size="100%"
@@ -126,6 +126,7 @@ export default {
         multipleSelection: [],
         // 表格数据
       yearBudgetData: [],
+        drawerTitle:"",
 
 
       //表格数据
@@ -151,6 +152,19 @@ export default {
   methods: {
       addInfo(){
       this.drawer=true;
+      this.disabled=false;
+      this.addData={
+         weekly: "",
+          company: "",
+          project: "",
+          worker: "",
+          date: "",
+          courseName: "",
+          status: "",
+          confirm: "",
+          dataWay: "",
+      }
+      this.drawerTitle="新增";
     },
     handleClose(done) {
           this.drawer = false
@@ -161,7 +175,7 @@ export default {
       editData(item,title){
         console.log(item);
         this.disabled = title == "编辑" ? false : true ;
-        this.drawerTitle=title == "编辑"?title+"清单":"清单"+title ;
+        this.drawerTitle=title ;
         this.drawer=true;
         this.addData=item;
       },

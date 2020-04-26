@@ -6,7 +6,7 @@
       <!-- ref="formInline"
       :model="formInline" -->
       <el-row>
-      <el-button icon="el-icon-plus" @click="addInfo()">新增</el-button>
+      <!-- <el-button icon="el-icon-plus" @click="addInfo()">新增</el-button> -->
       <el-button icon="el-icon-delete">批量删除</el-button>
       <el-button  @click="download()">下载</el-button>
     </el-row>
@@ -15,14 +15,15 @@
       label-position="left"
       style="margin-top: 2vh"
     >
-      <el-form-item label="年份">
+      <!-- <el-form-item label="年份">
         <el-date-picker
       v-model="searchData.budgetYear"
       type="year"
       placeholder="选择年"
-      :picker-options="pickerOptions">
+      :picker-options="pickerO
+      ptions">
     </el-date-picker>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="编号">
         <el-input v-model="searchData.type"  placeholder="请输入编号" ></el-input>
       </el-form-item>
@@ -60,7 +61,7 @@
     <el-drawer
     style="width:50%;margin:80px auto;"
     class="approvalDrawer"
-  title="审批"
+  :title="drawerTitle"
   :visible.sync="drawer"
   :direction="direction"
   size="100%"
@@ -82,16 +83,7 @@
   <el-form :model="approvalData"  ref="approvalData" label-width="100px" class="demo-ruleForm">
 
             <el-form-item  label="审批类型:" prop="time1">
-                <el-input v-model="approvalData.time1" :disabled="true" placeholder="请输入审批类型" ></el-input>
-            </el-form-item>
-            <el-form-item  label="审批类型:" prop="time1">
-                <el-input v-model="approvalData.time1" :disabled="true" placeholder="请输入审批类型" ></el-input>
-            </el-form-item>
-            <el-form-item  label="审批类型:" prop="time1">
-                <el-input v-model="approvalData.time1" :disabled="true" placeholder="请输入审批类型" ></el-input>
-            </el-form-item>
-            <el-form-item  label="审批类型:" prop="time1">
-                <el-input v-model="approvalData.time1" :disabled="true" placeholder="请输入审批类型" ></el-input>
+                <el-input v-model="approvalData.time1" :disabled="disabled" placeholder="请输入审批类型" ></el-input>
             </el-form-item>
             <el-form-item  label="详情:" prop="courseName">
                 <el-input v-model="approvalData.courseName" :disabled="disabled" placeholder="请输入详情" ></el-input>
@@ -151,12 +143,13 @@ export default {
         // 审批图片
         fit: 'cover',
         url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
-        approvalData:[{
+        approvalData:{
           courseId: "1",
           time1: "病假",
           courseName: "感冒",
           courseMan: "张三",
-        }],
+        },
+      
         disabled:false,
         reverse:false,
         activities: [{
@@ -173,6 +166,7 @@ export default {
           timestamp: '2018-04-11'
         }],
         btnLoading:false,
+        drawerTitle:"",
 
       adminDis: false, 
       //表格数据
@@ -207,23 +201,22 @@ export default {
   methods: {
      addInfo(){
       this.drawer=true;
+      this.disabled=false;
+      this.drawerTitle="新增";
     },
 
   //下载excel
      download() {
-       this.dateFun();
       const params = qs.stringify(this.searchData)
        
        },
     //搜索
     getRoleList(yearBudgetData) {
-       this.dateFun()
       this.getList();
     },
 
     //获取列表
     getList() {
-      this.years();
         console.log(this.searchData);
         this. tableLoading=true
         var dataArr=[{
@@ -244,39 +237,17 @@ export default {
         this.yearBudgetData = dataArr;
       // });
     },
- //  表头的年份显示
-       years(){
-          this.one=this.searchData.budgetYear+"年(元)";
-          this.two=(Number(this.searchData.budgetYear)+1).toString()+"年(元)";
-          this.three=(Number(this.searchData.budgetYear)+2).toString()+"年(元)";
-          this.four=(Number(this.searchData.budgetYear)+3).toString()+"年(元)";
-          this.five=(Number(this.searchData.budgetYear)+4).toString()+"年(元)";
-          this.six=(Number(this.searchData.budgetYear)+5).toString()+"年(元)";
-          // console.log(this.one);
-       },
-
-    dateFun(){
-       if(this.searchData.budgetYear ==null){
-        this.searchData.budgetYear = formatDate2(new Date(),'yyyy');
-      }else if(typeof(this.searchData.budgetYear) == "string"){
-          // this.searchData.budgetYear=this.searchData.budgetYear;
-        }else if(this.searchData.budgetYear !== formatDate2(new Date(),'yyyy')){
-        console.log("this.searchData.budgetYear");
-        console.log(this.searchData.budgetYear);
-       
-        this.searchData.budgetYear=formatDate2(this.searchData.budgetYear,'yyyy');
-      } 
-    },
     approval(item){
       console.log(item);
       this.drawer=true;
     },
     handleClose(done) {
-        this.$confirm('确认关闭？')
-          .then(_ => {
-            done();
-          })
-          .catch(_ => {});
+      done();
+        // this.$confirm('确认关闭？')
+        //   .then(_ => {
+        //     done();
+        //   })
+        //   .catch(_ => {});
       }
   }
 };

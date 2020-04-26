@@ -16,7 +16,7 @@
       style="margin-top: 2vh"
     >
       <el-form-item label="编号">
-        <el-input v-model="searchData.type"  placeholder="请输入编号" ></el-input>
+        <el-input v-model="searchData.data1"  placeholder="请输入编号" ></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="success" @click="getRoleList(yearBudgetData)">查询</el-button>
@@ -59,7 +59,7 @@
     <el-drawer
     style="width:50%;margin:80px auto;"
     class="safeSkillDrawer"
-  title="审批"
+  :title="drawerTitle"
   :visible.sync="drawer"
   :direction="direction"
   size="100%"
@@ -131,31 +131,18 @@ export default {
       disabled:false,
       btnLoading:false,
       multipleSelection:[],
+        drawerTitle:"",
+        searchData:{
+          data1:""
+        },
 
 
-      adminDis: false, 
-      one:formatDate2(new Date(),"yyyy")+"(元)",
-      two:((Number(formatDate2(new Date(),"yyyy")))+1).toString()+"年(元)",
-      three:((Number(formatDate2(new Date(),"yyyy")))+2).toString()+"年(元)",
-      four:((Number(formatDate2(new Date(),"yyyy")))+3).toString()+"年(元)",
-      five:((Number(formatDate2(new Date(),"yyyy")))+4).toString()+"年(元)",
-      six:((Number(formatDate2(new Date(),"yyyy")))+5).toString()+"年(元)",
       //表格数据
       tableLoading:false,
       yearBudgetData: [],
       budgetTypeNameArr:[],
       choiseYear:'',
       clientHeight:'',
-      searchData: {
-          budgetYear:formatDate2(new Date(),'yyyy'),
-      }, 
-      pickerOptions: {
-          disabledDate: (time) => {
-          
-            var a = formatDate2(new Date(time.getTime()),'yyyy')
-            return a < 2018
-          }
-        },
     };
   },
   mounted() {
@@ -183,6 +170,7 @@ export default {
           data7: "",
           data8: "",
       }
+      this.drawerTitle="新增";
     },
     handleClose(done) {
           this.drawer = false
@@ -193,7 +181,7 @@ export default {
       editData(item,title){
         console.log(item);
         this.disabled = title == "编辑" ? false : true ;
-        this.drawerTitle=title == "编辑"?title+"清单":"清单"+title ;
+        this.drawerTitle=title;
         this.drawer=true;
         this.addData=item;
       },

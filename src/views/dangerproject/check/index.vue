@@ -57,7 +57,7 @@
      <el-drawer
     style="width:50%;margin:80px auto;"
     class="safeSkillDrawer"
-  title="审批"
+  :title="drawerTitle"
   :visible.sync="drawer"
   :direction="direction"
   size="100%"
@@ -86,18 +86,6 @@
             </el-form-item>
             <el-form-item  label="交底人:" prop="data7">
                 <el-input v-model="addData.data7" :disabled="disabled" placeholder="请输入交底人" ></el-input>
-            </el-form-item>
-            <el-form-item  label="整改是否完成:" prop="data8">
-                <el-input v-model="addData.data8" :disabled="disabled" placeholder="请输入整改是否完成" ></el-input>
-            </el-form-item>
-            <el-form-item  label="未完成整改原因:" prop="data9">
-                <el-input v-model="addData.data9" :disabled="disabled" placeholder="未完成整改原因" ></el-input>
-            </el-form-item>
-            <el-form-item  label="复查完成情况:" prop="data10">
-                <el-input v-model="addData.data10" :disabled="disabled" placeholder="请输入复查完成情况" ></el-input>
-            </el-form-item>
-            <el-form-item  label="数据来源:" prop="data11">
-                <el-input v-model="addData.data11" :disabled="disabled" placeholder="请输入数据来源" ></el-input>
             </el-form-item>
 
             <el-form-item v-show="!disabled">
@@ -142,6 +130,7 @@ export default {
         data1:""
       },
         multipleSelection: [],
+        drawerTitle:"",
 
 
       adminDis: false, 
@@ -177,6 +166,7 @@ export default {
           data6: "",
           data7: "",
       }
+      this.drawerTitle="新增";
 
     },
     handleClose(done) {
@@ -188,7 +178,7 @@ export default {
       editData(item,title){
         console.log(item);
         this.disabled = title == "编辑" ? false : true ;
-        this.drawerTitle=title == "编辑"?title+"清单":"清单"+title ;
+        this.drawerTitle=title ;
         this.drawer=true;
         this.addData=item;
       },

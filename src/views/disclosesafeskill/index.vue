@@ -37,9 +37,9 @@
       width="55">
     </el-table-column>
       <el-table-column width="140" align="center" header-align="center"  prop="data1" label="编号"></el-table-column>
-      <el-table-column width="200" align="center" header-align="center"  prop="data2" label="期间"></el-table-column>
-      <el-table-column width="200" align="center" header-align="center"  prop="data3" label="交底名称"></el-table-column>
-      <el-table-column width="200" align="center" header-align="center"  prop="data4" label="方案名称"></el-table-column>
+      <el-table-column width="160" align="center" header-align="center"  prop="data2" label="期间"></el-table-column>
+      <el-table-column width="140" align="center" header-align="center"  prop="data3" label="交底名称"></el-table-column>
+      <el-table-column  align="center" header-align="center"  prop="data4" label="方案名称"></el-table-column>
       <el-table-column width="100" align="center" header-align="center"  prop="data5" label="交底时间"></el-table-column>
       <el-table-column width="100" align="center" header-align="center"  prop="data6" label="安全总监"></el-table-column>
       <el-table-column width="100" align="center" header-align="center"  prop="data7" label="交底人"></el-table-column>
@@ -56,7 +56,7 @@
     <el-drawer
     style="width:50%;margin:80px auto;"
     class="safeSkillDrawer"
-  title="审批"
+  :title="drawerTitle"
   :visible.sync="drawer"
   :direction="direction"
   size="100%"
@@ -137,6 +137,7 @@ export default {
         data1:""
       },
         multipleSelection: [],
+        drawerTitle:"",
 
 
       adminDis: false, 
@@ -174,6 +175,7 @@ export default {
           data8: "",
           data9: "",
       }
+      this.drawerTitle="新增";
     },
     handleClose(done) {
           this.drawer = false
@@ -184,7 +186,7 @@ export default {
       editData(item,title){
         console.log(item);
         this.disabled = title == "编辑" ? false : true ;
-        this.drawerTitle=title == "编辑"?title+"清单":"清单"+title ;
+        this.drawerTitle=title ;
         this.drawer=true;
         this.addData=item;
       },
@@ -268,8 +270,8 @@ export default {
         console.log(this.searchData);
         this. tableLoading=true
         var dataArr=[{
-          data1: "2019年9月第一周",
-          data2: "融建",
+          data1: "BT-479834298",
+          data2: "2019年9月第一周",
           data3: "钢筋工程",
           data4: "钢筋工",
           data5: "2019-9-7",
@@ -278,8 +280,8 @@ export default {
           data8: "已完成",
           data9: "pc端",
         },{
-          data1: "2019年9月第一周",
-          data2: "融建",
+          data1: "BT-479834298",
+          data2: "2019年9月第一周",
           data3: "钢筋工程",
           data4: "钢筋工",
           data5: "2019-9-7",

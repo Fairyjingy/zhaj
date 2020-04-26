@@ -37,11 +37,11 @@
       type="selection"
       width="55">
     </el-table-column>
-      <el-table-column width="200" align="center" header-align="center"  prop="data3" label="评价周期"></el-table-column>
-      <el-table-column width="200" align="center" header-align="center"  prop="data4" label="项目名称"></el-table-column>
-      <el-table-column  align="center" header-align="center"  prop="data5" label="工作完成情况"></el-table-column>
-      <el-table-column width="100" align="center" header-align="center"  prop="data6" label="安全评价"></el-table-column>
-      <el-table-column width="100" align="center" header-align="center"  prop="data7" label="综合评分"></el-table-column>
+      <el-table-column width="200" align="center" header-align="center"  prop="data1" label="评价周期"></el-table-column>
+      <el-table-column width="200" align="center" header-align="center"  prop="data2" label="项目名称"></el-table-column>
+      <el-table-column  align="center" header-align="center"  prop="data3" label="工作完成情况"></el-table-column>
+      <el-table-column width="100" align="center" header-align="center"  prop="data4" label="安全评价"></el-table-column>
+      <el-table-column width="100" align="center" header-align="center"  prop="data5" label="综合评分"></el-table-column>
       <el-table-column width="200" label="操作" header-align="center" align="center">
             <template slot-scope="scope">
                 <el-button  type="text" @click="editData(scope.row,'编辑')" size="small">编辑</el-button>
@@ -55,7 +55,7 @@
      <el-drawer
     style="width:50%;margin:80px auto;"
     class="safeSkillDrawer"
-  title="审批"
+  :title="drawerTitle"
   :visible.sync="drawer"
   :direction="direction"
   size="100%"
@@ -120,6 +120,7 @@ export default {
         data1:""
       },
         multipleSelection: [],
+        drawerTitle:"",
 
 
       adminDis: false, 
@@ -153,6 +154,7 @@ export default {
           data4: "",
           data5: "",
       }
+      this.drawerTitle="新增";
 
     },
     handleClose(done) {
@@ -164,7 +166,7 @@ export default {
       editData(item,title){
         console.log(item);
         this.disabled = title == "编辑" ? false : true ;
-        this.drawerTitle=title == "编辑"?title+"清单":"清单"+title ;
+        this.drawerTitle=title  ;
         this.drawer=true;
         this.addData=item;
       },
@@ -248,17 +250,17 @@ export default {
         console.log(this.searchData);
         this. tableLoading=true
         var dataArr=[{
-          data1: "BH54398-001",
-          data2: "2019年9月第一周",
+          data1: "2019年9月第一周",
+          data2: "中健博公馆项目安全策划书",
           data3: "安全策划交底",
-          data4: "中健博公馆项目安全策划书",
-          data5: "2019-9-7",
+          data4: "此次任务完成良好",
+          data5: "89",
         },{
-          data1: "BH54398-001",
-          data2: "2019年9月第一周",
+          data1: "2019年9月第一周",
+          data2: "中健博公馆项目安全策划书",
           data3: "安全策划交底",
-          data4: "中健博公馆项目安全策划书",
-          data5: "2019-9-7",
+          data4: "此次任务完成良好",
+          data5: "89",
         }]
       // yearBudgetData(this.searchData).then(data => {
         this. tableLoading=false;
