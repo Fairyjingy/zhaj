@@ -8,11 +8,22 @@
       label-position="left"
       style="margin-top: 2vh"
     >
-      <el-form-item label="试题内容">
-        <el-input v-model="searchData.courseId" clearable  placeholder="请输入试题内容" ></el-input>
+      <el-form-item label="开始时间">
+        <el-date-picker
+          v-model="value1"
+          type="date" style="width:140px;"
+          placeholder="选择日期">
+        </el-date-picker>
       </el-form-item>
-      <el-form-item label="试题类型">
-         <el-select v-model="valueT" placeholder="请选择试题类型">
+      <el-form-item label="结束时间">
+        <el-date-picker
+          v-model="value1"
+          type="date" style="width:140px;"
+          placeholder="选择日期">
+        </el-date-picker>
+      </el-form-item>
+      <el-form-item label="考核类型">
+         <el-select v-model="valueT" placeholder="请选择考核类型">
           <el-option
             v-for="item in optionsT"
             :key="item.value"
@@ -21,20 +32,13 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="试题类别">
-         <el-select v-model="valueC" placeholder="请选择试题类别">
-          <el-option
-            v-for="item in optionsC"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
+      <el-form-item label="考核主题">
+        <el-input v-model="searchData.courseId" clearable  placeholder="请输入考核主题" ></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="success" @click="getRoleList(yearBudgetData)">查询</el-button>
-        <el-button icon="el-icon-plus" @click="addInfo()">新增试题信息</el-button>
-        <el-button  @click="download()">试题导入</el-button>
+        <el-button icon="el-icon-plus" @click="addInfo()">新增考核</el-button>
+        <!-- <el-button  @click="download()">试题导入</el-button> -->
       </el-form-item>
     </el-form>
                     
@@ -57,10 +61,10 @@
       <el-table-column width="120" align="center" header-align="center"  prop="line3" label="考核类型"></el-table-column>
       <el-table-column width="80" align="center"  header-align="center"  prop="line4" label="题量"></el-table-column>
       <el-table-column width="100" align="center" header-align="center"  prop="line5" label="考试时长"></el-table-column>
-      <el-table-column width="180" align="center" header-align="center"  prop="line6" label="计划考核开始结束时间"></el-table-column>
+      <el-table-column  align="center" header-align="center"  prop="line6" label="计划考核开始结束时间"></el-table-column>
       <el-table-column width="120" align="center" header-align="center"  prop="line7" label="计划考核人数">
         <template slot-scope="scope">
-          <el-button type="text" @click="list(scope.row)">{{scope.row.line7}}</el-button>
+          <el-button type="text" @click="drawer1 = true">{{scope.row.line7}}</el-button>
         </template>
       </el-table-column>
       <el-table-column width="120" align="center" header-align="center"  prop="line8" label="已参与考核人数"></el-table-column>
@@ -160,8 +164,9 @@
             </el-form>
     </el-drawer> 
     <el-drawer
-      title="人员考核结果"
+      title="人员考核结果" class="result"
       :visible.sync="drawer1"
+      style="width:70%;margin:80px auto;height:70%;"
       :direction="direction"
       :before-close="handleClose">
       <el-form
@@ -169,13 +174,13 @@
         label-position="left"
         style="margin-top: 2vh"
         >
-        <el-form-item label="试题内容">
-          <el-input v-model="searchData.courseId" clearable  placeholder="请输入试题内容" ></el-input>
+        <el-form-item label="人员信息">
+          <el-input v-model="searchData.courseId" clearable  placeholder="姓名或手机号" ></el-input>
         </el-form-item>
-        <el-form-item label="试题类型">
-          <el-select v-model="valueT" placeholder="请选择试题类型">
+        <el-form-item label="是否参与考核">
+          <el-select v-model="valueJ" placeholder="请选择是否参与考核">
             <el-option
-              v-for="item in optionsT"
+              v-for="item in optionsJ"
               :key="item.value"
               :label="item.label"
               :value="item.value">
@@ -186,6 +191,25 @@
           <el-button type="success" @click="getRoleList(yearBudgetData)">查询</el-button>
         </el-form-item>
       </el-form>
+      <el-table 
+    :max-height="clientHeight"
+    :header-cell-style="{background:'#3c8dbc',color:'#fff'}" 
+    fit  
+    v-loading="tableLoading"
+    @selection-change="handleSelectionChange"
+    :data="testData">
+    <!-- <el-table-column
+      type="selection"
+      width="55">
+    </el-table-column> -->
+      <el-table-column width="80" align="center" header-align="center"  prop="line1" label="编号"></el-table-column>
+      <el-table-column width="140" align="center" header-align="center"  prop="line2" label="人员姓名"></el-table-column>
+      <el-table-column width="120" align="center" header-align="center"  prop="line3" label="手机号码"></el-table-column>
+      <el-table-column width="120" align="center"  header-align="center"  prop="line4" label="部门"></el-table-column>
+      <el-table-column width="140" align="center" header-align="center"  prop="line5" label="是否参加考核"></el-table-column>
+      <el-table-column  align="center" header-align="center"  prop="line6" label="考核起止时间"></el-table-column>
+      <el-table-column width="120" align="center" header-align="center"  prop="line7" label="得分"></el-table-column>
+    </el-table>  
     </el-drawer> 
   </div>
 </template>
@@ -206,45 +230,53 @@ export default {
     return {
 
         optionsT: [{
-          value: '选项1',
-          label: '单选题'
-        }, {
-          value: '选项2',
-          label: '多选题'
-        }, {
-          value: '选项3',
-          label: '简答题'
-        }, {
-          value: '选项4',
-          label: '填空题'
-        }],
+            value: '选项1',
+            label: '单选题'
+          }, {
+            value: '选项2',
+            label: '多选题'
+          }, {
+            value: '选项3',
+            label: '简答题'
+          }, {
+            value: '选项4',
+            label: '填空题'
+          }],
         valueT: '',
 
         optionsC: [{
-          value: '选项1',
-          label: '安全教育'
-        }, {
-          value: '选项2',
-          label: '安全生产'
-        }, {
-          value: '选项3',
-          label: '规章制度'
-        }],
+            value: '选项1',
+            label: '安全教育'
+          }, {
+            value: '选项2',
+            label: '安全生产'
+          }, {
+            value: '选项3',
+            label: '规章制度'
+          }],
         valueC: '',
+        optionsJ: [{
+            value: '选项1',
+            label: '是'
+          }, {
+            value: '选项2',
+            label: '否'
+          }],
+        valuJ: '',
         tableData: [{
           date: '1',
           name: '王小虎',
           radio:"",
           address: '1'
-        }, {
+          }, {
           date: '2',
           name: '王小虎',
           address: '2'
-        }, {
+          }, {
           date: '3',
           name: '王小虎',
           address: '5'
-        }, {
+          }, {
           date: '4',
           name: '王小虎',
           address: '5'
@@ -278,6 +310,71 @@ export default {
       //表格数据
       tableLoading:false,
       yearBudgetData: [],
+      testData:[
+        {
+          line1:"1",
+          line2:"李伟健",
+          line3:"18632107171",
+          line4:"工程部一部",
+          line5:"是",
+          line6:"2020-02-12 12:20 ～ 2020-02-12 14:00",
+          line7:"120",
+        },
+        {
+          line1:"2",
+          line2:"孙娜娜",
+          line3:"18632107171",
+          line4:"工程部一部",
+          line5:"是",
+          line6:"2020-02-12 12:20 ～ 2020-02-12 14:00",
+          line7:"120",
+        },
+        {
+          line1:"3",
+          line2:"赵涛",
+          line3:"18632107171",
+          line4:"工程部一部",
+          line5:"是",
+          line6:"2020-02-12 12:20 ～ 2020-02-12 14:00",
+          line7:"120",
+        },
+        {
+          line1:"4",
+          line2:"张丽丽",
+          line3:"18632107171",
+          line4:"工程部一部",
+          line5:"是",
+          line6:"2020-02-12 12:20 ～ 2020-02-12 14:00",
+          line7:"120",
+        },
+        {
+          line1:"5",
+          line2:"龚伟涛",
+          line3:"18632107171",
+          line4:"工程部一部",
+          line5:"是",
+          line6:"2020-02-12 12:20 ～ 2020-02-12 14:00",
+          line7:"120",
+        },
+        {
+          line1:"6",
+          line2:"刘建林",
+          line3:"18632107171",
+          line4:"工程部一部",
+          line5:"是",
+          line6:"2020-02-12 12:20 ～ 2020-02-12 14:00",
+          line7:"120",
+        },
+        {
+          line1:"7",
+          line2:"赵倩",
+          line3:"18632107171",
+          line4:"工程部一部",
+          line5:"是",
+          line6:"2020-02-12 12:20 ～ 2020-02-12 14:00",
+          line7:"120",
+        },
+      ],
       budgetTypeNameArr:[],
       choiseYear:'',
       clientHeight:'',
@@ -305,6 +402,7 @@ export default {
     },
     handleClose(done) {
           this.drawer = false
+          this.drawer1 = false
           this.drawerDept = false
           this.btnLoading = false
       },
@@ -440,7 +538,7 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style>
 .textAlignLeft{
   text-align: left;
 }
@@ -455,6 +553,9 @@ export default {
 .demo-ruleForm .el-form-item.w100{
   float: left;
   width:100%;
+}
+.result .el-drawer__open .el-drawer.ttb{
+  height:100%!important;
 }
 </style>
 
