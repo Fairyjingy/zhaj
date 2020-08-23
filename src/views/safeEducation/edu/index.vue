@@ -44,7 +44,7 @@
         <el-button type="primary" icon="el-icon-plus" @click="addInfo()">新增资料信息</el-button>
       </el-form-item>
     </el-form>
-    								
+    					
 
     <!-- 
     show-summary   -->
@@ -78,6 +78,11 @@
             </template>
         </el-table-column>
     </el-table>   
+    
+                <el-pagination style="margin-top: 10px;margin-bottom: 10px;" @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange" :current-page="current" :page-sizes="[10, 20, 30, 40, 50]"
+                    layout="total, sizes, prev, pager, next, jumper" :total="total">
+                </el-pagination>			
     <el-drawer
       style="width:50%;margin:80px auto;"
       class="safeSkillDrawer"
@@ -172,6 +177,9 @@ export default {
       var user = sessionStorage.getItem('user');
       user = JSON.parse(user);
     return {
+       current:1,
+      size:10,
+      total:0,
         imageUrl: '',
         options: [{
           value: '选项1',
@@ -259,6 +267,18 @@ export default {
         this.clientHeight = h - 260;
   },
   methods: {
+      // 分页current
+        handleCurrentChange(page) {
+            this.current = page
+            this.getList()
+        },
+        //size
+        handleSizeChange(val) {
+            console.log(val);
+            this.size = val
+            this.getList()
+        },
+
     addInfo(){
       this.drawer=true;
       this.disabled-false;

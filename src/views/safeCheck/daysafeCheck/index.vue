@@ -69,8 +69,12 @@
         </template>
       </el-table-column>
     </el-table>
+                <el-pagination style="margin-top: 10px;margin-bottom: 10px;" @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange" :current-page="current" :page-sizes="[10, 20, 30, 40, 50]"
+                    layout="total, sizes, prev, pager, next, jumper" :total="total">
+                </el-pagination>
     <el-drawer
-      style="width:50%;margin:80px auto;"
+      style="width:86%;margin-left:250px;margin-top:80px;margin-bottom:20px"
       class="safeSkillDrawer"
       :title="drawerTitle"
       :visible.sync="drawer"
@@ -193,6 +197,9 @@ export default {
           label: "其他培训",
         },
       ],
+       current:1,
+      size:10,
+      total:0,
       options1: [
         {
           value: "1",
@@ -266,6 +273,18 @@ export default {
     this.clientHeight = h - 260;
   },
   methods: {
+      // 分页current
+        handleCurrentChange(page) {
+            this.current = page
+            this.getList()
+        },
+        //size
+        handleSizeChange(val) {
+            console.log(val);
+            this.size = val
+            this.getList()
+        },
+
     addInfo() {
       this.drawer = true;
       this.disabled - false;
