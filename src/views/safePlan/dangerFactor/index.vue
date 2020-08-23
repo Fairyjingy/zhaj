@@ -14,20 +14,22 @@
       label-position="left"
       style="margin-top: 2vh"
     >
-      <el-form-item label="检查项归类">
-        <el-input v-model="searchData.type"  placeholder="请输入检查项归类" ></el-input>
+      <el-form-item label="手机号码">
+        <el-input v-model="searchData.type"  placeholder="请输入手机号码" ></el-input>
       </el-form-item>
-      <el-form-item label="危险因素">
-        <el-input v-model="searchData.time1"  placeholder="请输入危险因素" ></el-input>
+      <el-form-item label="姓名">
+        <el-input v-model="searchData.time1"  placeholder="请输入姓名" ></el-input>
       </el-form-item>
-      <!-- <el-form-item label="年份">
-        <el-date-picker
-      v-model="searchData.budgetYear"
-      type="year"
-      placeholder="选择年"
-      :picker-options="pickerOptions">
-    </el-date-picker>
-      </el-form-item> -->
+      <el-form-item label="年龄段">
+         <el-select v-model="value" placeholder="请选择年龄段">
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="getRoleList(yearBudgetData)">查询</el-button>
         <el-button icon="el-icon-plus" @click="addInfo()">新增人员信息</el-button>
@@ -44,71 +46,73 @@
     v-loading="tableLoading"
     @selection-change="handleSelectionChange"
     :data="yearBudgetData"> 
-    <el-table-column
+    <!-- <el-table-column
       type="selection"
       width="55">
-    </el-table-column>
-      <el-table-column width="240" align="center" header-align="center"  prop="courseId" label="作业活动"></el-table-column>
-      <el-table-column width="200" align="center" header-align="center"  prop="time1" label="危险因素"></el-table-column>
-      <el-table-column width="200" align="center" header-align="center"  prop="courseName" label="可能导致的事故"></el-table-column>
-      <el-table-column  align="center" header-align="center"  prop="courseMan" label="风险级别"></el-table-column>
-      <el-table-column width="400" align="center" header-align="center"  prop="time2" label="控制措施"></el-table-column>
-      <el-table-column width="200" align="center" header-align="center"  prop="address" label="涉及相关方"></el-table-column>
-      <el-table-column width="160" align="center" header-align="center"  prop="count" label="所属施工阶段"></el-table-column>
-      <el-table-column width="160" align="center" header-align="center"  prop="type" label="检查项归类"></el-table-column>
+    </el-table-column> -->
+      <el-table-column width="80" align="center" header-align="center"  prop="line1" label="序号"></el-table-column>
+      <el-table-column width="80" align="center" header-align="center"  prop="line2" label="姓名"></el-table-column>
+      <el-table-column width="120" align="center" header-align="center"  prop="line3" label="手机号码"></el-table-column>
+      <el-table-column width="120" align="center"  header-align="center"  prop="line4" label="性别"></el-table-column>
+      <el-table-column width="60" align="center" header-align="center"  prop="line5" label="年龄"></el-table-column>
+      <el-table-column width="80" align="center" header-align="center"  prop="line6" label="工种"></el-table-column>
+      <el-table-column width="100" align="center" header-align="center"  prop="line7" label="培训次数"></el-table-column>
+      <el-table-column width="120" align="center" header-align="center"  prop="line8" label="出现事故次数"></el-table-column>
+      <el-table-column align="center" header-align="center"  prop="line9" label="工作范围"></el-table-column>
+      <el-table-column width="100" align="center" header-align="center"  prop="line10" label="注册时间"></el-table-column>
       <el-table-column width="200" label="操作" header-align="center" align="center">
             <template slot-scope="scope">
                 <el-button  type="text" @click="editData(scope.row,'编辑')" size="small">编辑</el-button>
-                <el-button  type="text" @click="editData(scope.row,'详情')" size="small">详情</el-button>
+                <el-button  type="text" @click="editData(scope.row,'详情')" size="small">禁用</el-button>
                 <el-button   type="text" @click="deleteData(scope.row)" size="small">删除</el-button>
 
             </template>
         </el-table-column>
     </el-table>   
     <el-drawer
-    style="width:50%;margin:80px auto;"
-    class="safeSkillDrawer"
-  :title="drawerTitle"
-  :visible.sync="drawer"
-  :direction="direction"
-  size="100%"
-  :before-close="handleClose">
+      style="width:50%;margin:80px auto;"
+      class="safeSkillDrawer"
+      :title="drawerTitle"
+      :visible.sync="drawer"
+      :direction="direction"
+      size="100%"
+      :before-close="handleClose">
 
-  <!-- :rules="ruleapproval" -->
-  <el-form :model="addData"  ref="addData" label-width="120px" class="demo-ruleForm">
+      <!-- :rules="ruleapproval" -->
+      <el-form :model="addData"  ref="addData" label-width="120px" class="demo-ruleForm">
 
-            <el-form-item  label="作业活动:" prop="courseId">
-                <el-input v-model="addData.courseId" :disabled="disabled" placeholder="请输入作业活动" ></el-input>
-            </el-form-item>
-            <el-form-item  label="危险因素:" prop="time1">
-                <el-input v-model="addData.time1" :disabled="disabled" placeholder="请输入危险因素" ></el-input>
-            </el-form-item>
-            <el-form-item  label="可能导致的事故:" prop="courseName">
-                <el-input v-model="addData.courseName" :disabled="disabled" placeholder="请输入可能导致的事故" ></el-input>
-            </el-form-item>
-            <el-form-item  label="风险级别:" prop="courseMan">
-                <el-input v-model="addData.courseMan" :disabled="disabled" placeholder="请输入风险级别" ></el-input>
-            </el-form-item>
-            <el-form-item  label="控制措施:" prop="time2">
-                <el-input v-model="addData.time2" :disabled="disabled" placeholder="控制措施" ></el-input>
-            </el-form-item>
-            <el-form-item  label="涉及相关方:" prop="address">
-                <el-input v-model="addData.address" :disabled="disabled" placeholder="请输入涉及相关方" ></el-input>
-            </el-form-item>
-            <el-form-item  label="所属施工阶段:" prop="count">
-                <el-input v-model="addData.count" :disabled="disabled" placeholder="请输入所属施工阶段" ></el-input>
-            </el-form-item>
-            <el-form-item  label="检查项归类:" prop="type">
-                <el-input v-model="addData.type" :disabled="disabled" placeholder="请输入检查项归类" ></el-input>
-            </el-form-item>
-            <el-form-item v-show="!disabled">
-                <div style="text-align:center;margin-right:80px">
-                <el-button type="primary" v-loading="btnLoading" :disabled="btnLoading" @click="submitData('addData')">确定</el-button>
-                <el-button @click="resetForm('addData')">取消</el-button>
-            </div>
-            </el-form-item>
-        </el-form>
-</el-drawer>  
+                <el-form-item  label="作业活动:" prop="courseId">
+                    <el-input v-model="addData.courseId" :disabled="disabled" placeholder="请输入作业活动" ></el-input>
+                </el-form-item>
+                <el-form-item  label="危险因素:" prop="time1">
+                    <el-input v-model="addData.time1" :disabled="disabled" placeholder="请输入危险因素" ></el-input>
+                </el-form-item>
+                <el-form-item  label="可能导致的事故:" prop="courseName">
+                    <el-input v-model="addData.courseName" :disabled="disabled" placeholder="请输入可能导致的事故" ></el-input>
+                </el-form-item>
+                <el-form-item  label="风险级别:" prop="courseMan">
+                    <el-input v-model="addData.courseMan" :disabled="disabled" placeholder="请输入风险级别" ></el-input>
+                </el-form-item>
+                <el-form-item  label="控制措施:" prop="time2">
+                    <el-input v-model="addData.time2" :disabled="disabled" placeholder="控制措施" ></el-input>
+                </el-form-item>
+                <el-form-item  label="涉及相关方:" prop="address">
+                    <el-input v-model="addData.address" :disabled="disabled" placeholder="请输入涉及相关方" ></el-input>
+                </el-form-item>
+                <el-form-item  label="所属施工阶段:" prop="count">
+                    <el-input v-model="addData.count" :disabled="disabled" placeholder="请输入所属施工阶段" ></el-input>
+                </el-form-item>
+                <el-form-item  label="检查项归类:" prop="type">
+                    <el-input v-model="addData.type" :disabled="disabled" placeholder="请输入检查项归类" ></el-input>
+                </el-form-item>
+                <el-form-item v-show="!disabled">
+                    <div style="text-align:center;margin-right:80px">
+                    <el-button type="primary" v-loading="btnLoading" :disabled="btnLoading" @click="submitData('addData')">确定</el-button>
+                    <el-button @click="resetForm('addData')">取消</el-button>
+                </div>
+                </el-form-item>
+            </el-form>
+    </el-drawer>  
   </div>
 </template>
 
@@ -126,6 +130,24 @@ export default {
       var user = sessionStorage.getItem('user');
       user = JSON.parse(user);
     return {
+        options: [{
+          value: '选项1',
+          label: '0-12'
+        }, {
+          value: '选项2',
+          label: '12-20'
+        }, {
+          value: '选项3',
+          label: '20-40'
+        }, {
+          value: '选项4',
+          label: '40-60'
+        }, {
+          value: '选项5',
+          label: '60-80'
+        }],
+        value: '',
+
       drawer:false,
       direction: 'ttb',
       drawerTitle:"",
@@ -283,23 +305,27 @@ export default {
         console.log(this.searchData);
         this. tableLoading=true
         var dataArr=[{
-          courseId: "基坑支护",
-          time1: "天气变化未采取预防措施",
-          courseName: "坍塌",
-          courseMan: "3",
-          time2: "制定运行控制计划",
-          address: "现场人员、劳务人员",
-          count: "基础阶段",
-          type: "基坑工程",
+          line1: "1",
+          line2: "张三",
+          line3: "19283475869",
+          line4: "男",
+          line5: "34",
+          line6: "矿工",
+          line7: "4",
+          line8: "6",
+          line9: "天山矿区1号井",
+          line10: "2018-12-3",
         },{
-          courseId: "基坑支护",
-          time1: "天气变化未采取预防措施",
-          courseName: "坍塌",
-          courseMan: "3",
-          time2: "制定运行控制计划",
-          address: "现场人员、劳务人员",
-          count: "基础阶段",
-          type: "基坑工程",
+          line1: "1",
+          line2: "张三",
+          line3: "19283475869",
+          line4: "男",
+          line5: "34",
+          line6: "矿工",
+          line7: "4",
+          line8: "6",
+          line9: "天山矿区1号井",
+          line10: "2018-12-3",
         }]
       // yearBudgetData(this.searchData).then(data => {
         this. tableLoading=false;

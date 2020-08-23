@@ -54,18 +54,19 @@ let routes = [
 {
     path: '/safePlan',
     component: Index,
-    name: '安全策划管理',
+    name: '基础信息管理',
     children: [
-      { path: '/dangerFactor', component:dangerFactor , name: '危险因素清单',meta: { requiresAuth: true }, },
-      { path: '/finish', component:finish , name: '安全策划交底',meta: { requiresAuth: true }, },
+      { path: '/dangerFactor', component:dangerFactor , name: '人员信息管理',meta: { requiresAuth: true }, },
+      // { path: '/finish', component:finish , name: '安全策划交底',meta: { requiresAuth: true }, },
     ]
 },
 {
     path: '/safeCheck',
     component: Index,
-    name: '安全检查管理',
+    name: '培训计划管理',
+    // name: '安全检查管理',
     children: [
-      { path: '/daysafeCheck', component:daysafeCheck , name: '日常安全检查',meta: { requiresAuth: true }, },
+      { path: '/daysafeCheck', component:daysafeCheck , name: '培训计划管理',meta: { requiresAuth: true }, },
       { path: '/setsafeCheck', component:setsafeCheck , name: '定期安全检查',meta: { requiresAuth: true }, },
       { path: '/safeChangeRecord', component:safeChangeRecord , name: '安全整改记录',meta: { requiresAuth: true }, },
     ]
@@ -73,20 +74,20 @@ let routes = [
 {
     path: '/education',
     component: Index,
-    name: '安全教育管理',
+    name: '培训资料管理',
     children: [
-      { path: '/eduPerson', component:eduPerson , name: '人员管理',meta: { requiresAuth: true }, },
-      { path: '/edu', component:edu , name: '入场安全教育',meta: { requiresAuth: true }, },
+      { path: '/eduPerson', component:eduPerson , name: 'aaa',meta: { requiresAuth: true }, },
+      { path: '/edu', component:edu , name: '培训资料管理',meta: { requiresAuth: true }, },
       { path: '/dailysafeEdu', component:dailysafeEdu , name: '日常安全教育',meta: { requiresAuth: true }, },
     ]
 },
 {
     path: '/dangerProject',
     component: Index,
-    name: '危险工程管理',
+    name: '考核题库管理',
     children: [
-      { path: '/dangerprojectPlan', component:dangerprojectPlan , name: '危险工程监控计划',meta: { requiresAuth: true }, },
-      { path: '/dangerprojectrecord', component:dangerprojectrecord , name: '危险工程监管记录',meta: { requiresAuth: true }, },
+      { path: '/dangerprojectPlan', component:dangerprojectPlan , name: '题库管理',meta: { requiresAuth: true }, },
+      { path: '/dangerprojectrecord', component:dangerprojectrecord , name: '考核管理',meta: { requiresAuth: true }, },
       { path: '/dangersafecheck', component:check , name: '安全验收',meta: { requiresAuth: true }, },
     ]
 },
