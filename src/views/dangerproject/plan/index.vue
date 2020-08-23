@@ -82,7 +82,7 @@
   :before-close="handleClose">
 
   <!-- :rules="ruleapproval" -->
-  <el-form :model="addData"  ref="addData" label-width="100px" class="demo-ruleForm">
+  <el-form :model="addData"  ref="addData" label-width="100px" class="formD demo-ruleForm">
 
             <el-form-item width="50"  label="编号:" prop="data1">
                 <el-input v-model="addData.data1" :disabled="disabled" placeholder="请输入编号" ></el-input>
@@ -319,11 +319,11 @@ export default {
 .textAlignLeft{
   text-align: left;
 }
-.demo-ruleForm .el-form-item{
+.demo-ruleForm.formD .el-form-item{
   float: left;
   width:50%;
 }
-.demo-ruleForm .el-form-item:last-child{
+.demo-ruleForm.formD .el-form-item:last-child{
   float: left;
   width:100%;
 }

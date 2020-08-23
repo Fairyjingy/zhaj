@@ -88,7 +88,7 @@
       :before-close="handleClose">
 
       <!-- :rules="ruleapproval" -->
-      <el-form :model="addData"  ref="addData" label-width="100px" class="demo-ruleForm">
+      <el-form :model="addData"  ref="addData" label-width="100px" class="formD demo-ruleForm">
 
                 <el-form-item width="50"  label="考核主题:" class="w100" prop="line1">
                     <el-input v-model="addData.line1" :disabled="disabled" placeholder="请输入考核主题" ></el-input>
@@ -166,7 +166,7 @@
     <el-drawer
       title="人员考核结果" class="result"
       :visible.sync="drawer1"
-      style="width:70%;margin:80px auto;height:70%;"
+      style="width:calc(100% - 270px);margin-top:80px;margin-left:250px;height:calc(100% - 100px);"
       :direction="direction"
       :before-close="handleClose">
       <el-form
@@ -542,15 +542,15 @@ export default {
 .textAlignLeft{
   text-align: left;
 }
-.demo-ruleForm .el-form-item{
+.demo-ruleForm.formD .el-form-item{
   float: left;
   width:50%;
 }
-.demo-ruleForm .el-form-item:last-child{
+.demo-ruleForm.formD .el-form-item:last-child{
   float: left;
   width:100%;
 }
-.demo-ruleForm .el-form-item.w100{
+.demo-ruleForm.formD .el-form-item.w100{
   float: left;
   width:100%;
 }
