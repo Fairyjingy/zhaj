@@ -63,7 +63,7 @@
                 <i class="fa fa-align-justify"></i>
               
               </div>
-              <span style="font-weight:500;color:rgba(255,255,255,1);font-size:18px;letter-spacing: 3px;">中建集团</span>
+              <span style="font-weight:500;color:rgba(255,255,255,1);font-size:18px;letter-spacing: 3px;">矿区智能综合培训系统</span>
             </el-col>
             <el-col :span="4" class="userinfo">
               <el-dropdown trigger="hover">
