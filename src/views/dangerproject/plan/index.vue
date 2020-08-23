@@ -71,18 +71,21 @@
             </template>
         </el-table-column>
     </el-table>   
+    <el-pagination style="margin-top: 10px;margin-bottom: 10px;" @size-change="handleSizeChange"
+        @current-change="handleCurrentChange" :current-page="current" :page-sizes="[10, 20, 30, 40, 50]"
+        layout="total, sizes, prev, pager, next, jumper" :total="total">
+    </el-pagination>
+    <el-drawer
+      style="width:50%;margin:80px auto;"
+      class="safeSkillDrawer"
+      :title="drawerTitle"
+      :visible.sync="drawer"
+      :direction="direction"
+      size="100%"
+      :before-close="handleClose">
 
-     <el-drawer
-    style="width:50%;margin:80px auto;"
-    class="safeSkillDrawer"
-  :title="drawerTitle"
-  :visible.sync="drawer"
-  :direction="direction"
-  size="100%"
-  :before-close="handleClose">
-
-  <!-- :rules="ruleapproval" -->
-  <el-form :model="addData"  ref="addData" label-width="100px" class="formD demo-ruleForm">
+      <!-- :rules="ruleapproval" -->
+      <el-form :model="addData"  ref="addData" label-width="100px" class="formD demo-ruleForm">
 
             <el-form-item width="50"  label="编号:" prop="data1">
                 <el-input v-model="addData.data1" :disabled="disabled" placeholder="请输入编号" ></el-input>
@@ -100,7 +103,7 @@
             </div>
             </el-form-item>
         </el-form>
-</el-drawer>  
+    </el-drawer>  
   </div>
 </template>
 
@@ -118,7 +121,9 @@ export default {
       var user = sessionStorage.getItem('user');
       user = JSON.parse(user);
     return {
-
+       current:1,
+      size:10,
+      total:0,
         optionsT: [{
           value: '选项1',
           label: '单选题'
@@ -183,9 +188,20 @@ export default {
         this.clientHeight = h - 260;
   },
   methods: {
+      // 分页current
+        handleCurrentChange(page) {
+            this.current = page
+            this.getList()
+        },
+        //size
+        handleSizeChange(val) {
+            console.log(val);
+            this.size = val
+            this.getList()
+        },
       addInfo(){
-      this.drawer=true;
-      this.disabled=false;
+        this.drawer=true;
+        this.disabled=false;
        this.addData={
          data1: "",
           data2: "",

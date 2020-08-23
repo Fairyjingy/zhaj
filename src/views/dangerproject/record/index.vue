@@ -77,9 +77,12 @@
             </template>
         </el-table-column>
     </el-table>   
-
+<el-pagination style="margin-top: 10px;margin-bottom: 10px;" @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange" :current-page="current" :page-sizes="[10, 20, 30, 40, 50]"
+                    layout="total, sizes, prev, pager, next, jumper" :total="total">
+                </el-pagination>
      <el-drawer
-         style="width:calc(100% - 270px);margin-top:80px;margin-left:250px;height:calc(100% - 100px);"
+      style="width:calc(100% - 270px);margin-top:80px;margin-left:250px;height:calc(100% - 100px);"
       class="safeSkillDrawer"
       :title="drawerTitle"
       :visible.sync="drawer"
@@ -111,7 +114,7 @@
         <el-form-item width="50"  label="培训计划:" prop="data1">
             <el-input v-model="addData.line5" :disabled="disabled" placeholder="请输入培训计划" ></el-input>
         </el-form-item>
-        <el-form-item  label="期间:" class="w100" prop="data2" style="text-align:right;">
+        <el-form-item  label="考试试题:" class="w100" prop="data2" style="text-align:right;">
           <el-button text-align="right" type="primary" style="margin-bottom:20px;" @click="resetForm('approvalData')">考题导入</el-button>
               <el-table
                 :data="tableData"
@@ -228,7 +231,9 @@ export default {
       var user = sessionStorage.getItem('user');
       user = JSON.parse(user);
     return {
-
+       current:1,
+      size:10,
+      total:0,
         optionsT: [{
             value: '选项1',
             label: '单选题'
@@ -392,6 +397,17 @@ export default {
         this.clientHeight = h - 260;
   },
   methods: {
+      // 分页current
+        handleCurrentChange(page) {
+            this.current = page
+            this.getList()
+        },
+        //size
+        handleSizeChange(val) {
+            console.log(val);
+            this.size = val
+            this.getList()
+        },
       addInfo(){
       this.drawer=true;
       this.disabled=false;
