@@ -29,7 +29,7 @@
     show-summary   -->
     <el-table 
     :max-height="clientHeight"
-    :header-cell-style="{background:'#33b35a',color:'#fff'}" 
+    :header-cell-style="{background:'#3c8dbc',color:'#fff'}" 
     fit  
     v-loading="tableLoading"
     @selection-change="handleSelectionChange"

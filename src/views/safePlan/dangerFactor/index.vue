@@ -4,11 +4,11 @@
 
       <!-- ref="formInline"
       :model="formInline" -->
-      <el-row>
+      <!-- <el-row>
     <el-button icon="el-icon-plus" @click="addInfo()">新增</el-button>
       <el-button icon="el-icon-delete" @click="deleteDatas">批量删除</el-button>
       <el-button  @click="download()">导出</el-button>
-    </el-row>
+    </el-row> -->
     <el-form
       inline
       label-position="left"
@@ -29,7 +29,8 @@
     </el-date-picker>
       </el-form-item> -->
       <el-form-item>
-        <el-button type="success" @click="getRoleList(yearBudgetData)">查询</el-button>
+        <el-button type="primary" @click="getRoleList(yearBudgetData)">查询</el-button>
+        <el-button icon="el-icon-plus" @click="addInfo()">新增人员信息</el-button>
       </el-form-item>
     </el-form>
     								
@@ -38,7 +39,7 @@
     show-summary   -->
     <el-table 
     :max-height="clientHeight"
-    :header-cell-style="{background:'#33b35a',color:'#fff'}" 
+    :header-cell-style="{background:'#3c8dbc',color:'#fff'}" 
     fit  
     v-loading="tableLoading"
     @selection-change="handleSelectionChange"
