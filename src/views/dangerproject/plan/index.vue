@@ -303,15 +303,6 @@ export default {
           line6: "2020-01-02",
           line7: "王伟健",
           line8: "2",
-        },{
-          line1: "3",
-          line2: "选择题",
-          line3: "安全生产",
-          line4: "按照公司规章制度，新员工入职后需要在（     ）个工作日内提交全部的入职资料？  \nA：10    B：11    C：12     D：13",
-          line5: "B",
-          line6: "2020-01-02",
-          line7: "王伟健",
-          line8: "2",
         },]
       // yearBudgetData(this.searchData).then(data => {
         this. tableLoading=false;
