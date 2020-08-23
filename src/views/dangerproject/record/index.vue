@@ -79,7 +79,7 @@
     </el-table>   
 
      <el-drawer
-      style="width:70%;margin:80px auto;"
+         style="width:calc(100% - 270px);margin-top:80px;margin-left:250px;height:calc(100% - 100px);"
       class="safeSkillDrawer"
       :title="drawerTitle"
       :visible.sync="drawer"
@@ -90,78 +90,78 @@
       <!-- :rules="ruleapproval" -->
       <el-form :model="addData"  ref="addData" label-width="100px" class="formD demo-ruleForm">
 
-                <el-form-item width="50"  label="考核主题:" class="w100" prop="line1">
-                    <el-input v-model="addData.line1" :disabled="disabled" placeholder="请输入考核主题" ></el-input>
-                </el-form-item>
-                <el-form-item width="50"  label="考核类型:" prop="line2">
-                    <el-input v-model="addData.line2" :disabled="disabled" placeholder="请输入考核类型" ></el-input>
-                </el-form-item>
-                <el-form-item width="150" label-width="140px"   label="考核开始结束时间:" prop="line3">
-                    <el-date-picker
-                      v-model="addData.line3"
-                      type="daterange"
-                      range-separator="至"
-                      start-placeholder="开始日期"
-                      end-placeholder="结束日期">
-                    </el-date-picker>
-                </el-form-item>
-                <el-form-item width="50"  label="考核人员:" prop="data1">
-                    <el-input v-model="addData.line4" :disabled="disabled" placeholder="请输入考核人员" ></el-input>
-                </el-form-item>
-                <el-form-item width="50"  label="培训计划:" prop="data1">
-                    <el-input v-model="addData.line5" :disabled="disabled" placeholder="请输入培训计划" ></el-input>
-                </el-form-item>
-                <el-form-item  label="期间:" class="w100" prop="data2" style="text-align:right;">
-                  <el-button text-align="right" type="primary" style="margin-bottom:20px;" @click="resetForm('approvalData')">考题导入</el-button>
-                      <el-table
-                        :data="tableData"
-                        border
-                        style="width: 100%">
-                        <el-table-column
-                          prop="date"
-                          label="编号"
-                          width="80">
-                        </el-table-column>
-                        <el-table-column
-                          prop="name"
-                          label="试题内容"
-                          width="480">
-                          <template slot-scope="scope">
-                            <p>电气化区段平交通口架与线路钢轨外侧的距离不得少于（    ）米？</p>
-                            <el-radio-group v-model="scope.row.radio">
-                              <el-radio :label="3">A:10</el-radio>
-                              <el-radio :label="6">B:11</el-radio>
-                              <el-radio :label="9">C:12</el-radio>
-                              <el-radio :label="10">D:13</el-radio>
-                            </el-radio-group>
-                          </template>
-                        </el-table-column>
-                        <el-table-column
-                          prop="address" width="180"
-                          label="分值">
-                          <template slot-scope="scope">
-                            <el-input placeholder="请输入" v-model="scope.row.address">
-                                <template slot="append">分</template>
-                              </el-input>
-                          </template>
-                        </el-table-column>
-                        <el-table-column label="操作" header-align="center" align="center">
-                          <template slot-scope="scope">
-                              <el-button  type="text" v-if="scope.row.date!=='1'" @click="editData(scope.row,'编辑')" size="small">下移</el-button>
-                              <el-button  type="text" v-if="scope.row.date!=='4'" @click="editData(scope.row,'编辑')" size="small">上移</el-button>
-                              <el-button   type="text" @click="deleteData(scope.row)" size="small">删除</el-button>
+        <el-form-item width="50"  label="考核主题:" class="w100" prop="line1">
+            <el-input v-model="addData.line1" :disabled="disabled" placeholder="请输入考核主题" ></el-input>
+        </el-form-item>
+        <el-form-item width="50"  label="考核类型:" prop="line2">
+            <el-input v-model="addData.line2" :disabled="disabled" placeholder="请输入考核类型" ></el-input>
+        </el-form-item>
+        <el-form-item width="150" label-width="140px"   label="考核开始结束时间:" prop="line3">
+            <el-date-picker
+              v-model="addData.line3"
+              type="daterange"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期">
+            </el-date-picker>
+        </el-form-item>
+        <el-form-item width="50"  label="考核人员:" prop="data1">
+            <el-input v-model="addData.line4" :disabled="disabled" placeholder="请输入考核人员" ></el-input>
+        </el-form-item>
+        <el-form-item width="50"  label="培训计划:" prop="data1">
+            <el-input v-model="addData.line5" :disabled="disabled" placeholder="请输入培训计划" ></el-input>
+        </el-form-item>
+        <el-form-item  label="期间:" class="w100" prop="data2" style="text-align:right;">
+          <el-button text-align="right" type="primary" style="margin-bottom:20px;" @click="resetForm('approvalData')">考题导入</el-button>
+              <el-table
+                :data="tableData"
+                border
+                style="width: 100%">
+                <el-table-column
+                  prop="date"
+                  label="编号"
+                  width="80">
+                </el-table-column>
+                <el-table-column
+                  prop="name"
+                  label="试题内容"
+                  >
+                  <template slot-scope="scope">
+                    <p>电气化区段平交通口架与线路钢轨外侧的距离不得少于（    ）米？</p>
+                    <el-radio-group v-model="scope.row.radio">
+                      <el-radio :label="3">A:10</el-radio>
+                      <el-radio :label="6">B:11</el-radio>
+                      <el-radio :label="9">C:12</el-radio>
+                      <el-radio :label="10">D:13</el-radio>
+                    </el-radio-group>
+                  </template>
+                </el-table-column>
+                <el-table-column
+                  prop="address" width="180"
+                  label="分值">
+                  <template slot-scope="scope">
+                    <el-input placeholder="请输入" v-model="scope.row.address">
+                        <template slot="append">分</template>
+                      </el-input>
+                  </template>
+                </el-table-column>
+                <el-table-column width="180" label="操作" header-align="center" align="center">
+                  <template slot-scope="scope">
+                      <el-button  type="text" v-if="scope.row.date!=='1'" @click="editData(scope.row,'编辑')" size="small">下移</el-button>
+                      <el-button  type="text" v-if="scope.row.date!=='4'" @click="editData(scope.row,'编辑')" size="small">上移</el-button>
+                      <el-button   type="text" @click="deleteData(scope.row)" size="small">删除</el-button>
 
-                          </template>
-                      </el-table-column>
-                      </el-table>
-                </el-form-item>
-                <el-form-item v-show="!disabled">
-                    <div style="text-align:center;margin-right:80px">
-                    <el-button type="primary" v-loading="btnLoading" :disabled="btnLoading" @click="submitData('addData')">确定</el-button>
-                    <el-button @click="resetForm('approvalData')">取消</el-button>
-                </div>
-                </el-form-item>
-            </el-form>
+                  </template>
+              </el-table-column>
+              </el-table>
+        </el-form-item>
+        <el-form-item v-show="!disabled">
+            <div style="text-align:center;margin-right:80px">
+            <el-button type="primary" v-loading="btnLoading" :disabled="btnLoading" @click="submitData('addData')">确定</el-button>
+            <el-button @click="resetForm('approvalData')">取消</el-button>
+        </div>
+        </el-form-item>
+      </el-form>
     </el-drawer> 
     <el-drawer
       title="人员考核结果" class="result"
