@@ -3,13 +3,6 @@
 <!--  审批管理 -->
   <div>
 
-      <!-- ref="formInline"
-      :model="formInline" -->
-      <el-row>
-      <!-- <el-button icon="el-icon-plus" @click="addInfo()">新增</el-button> -->
-      <el-button icon="el-icon-delete">批量删除</el-button>
-      <el-button  @click="download()">下载</el-button>
-    </el-row>
     <el-form
       inline
       label-position="left"
@@ -28,7 +21,7 @@
         <el-input v-model="searchData.type"  placeholder="请输入编号" ></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="success" @click="getRoleList(yearBudgetData)">查询</el-button>
+        <el-button type="primary" class="" @click="getRoleList(yearBudgetData)">查询</el-button>
         <el-button plain @click="download()">下载</el-button>
       </el-form-item>
     </el-form>
@@ -38,7 +31,7 @@
     show-summary   -->
     <el-table 
     :max-height="clientHeight"
-    :header-cell-style="{background:'#33b35a',color:'#fff'}" 
+    :header-cell-style="{background:'#3c8dbc',color:'#fff'}" 
     fit  
     v-loading="tableLoading"
     :data="yearBudgetData">
@@ -254,9 +247,14 @@ export default {
 </script>
 <style >
   
-.el-button--text{
-  color:rgb(51, 179, 90);
+/* .el-button--text{
+  color:#3c8dbc;
 }
+
+.el-button--success{
+  background-color: #3c8dbc;
+  border-color: #3c8dbc;
+} */
 .approvalDrawer .el-drawer__body{
   height:calc(100% -47px);
   overflow: auto;

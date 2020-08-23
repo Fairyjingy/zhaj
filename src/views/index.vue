@@ -17,7 +17,7 @@
             :unique-opened="true"
             style="height:calc(100vh - 60px);margin-top:60px;"
             text-color="#fff"
-            active-text-color="#33b35a"
+            active-text-color="#409EFF"
             :router="true"
             @open="handleOpen"
             background-color="#282828"

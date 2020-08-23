@@ -43,4 +43,12 @@ export default {
       height:calc(100% - 47px);
       overflow: auto;
     }
+    .el-button--text{
+  color:#409EFF!important;
+}
+
+.el-button--success{
+  background-color: #3c8dbc!important;
+  border-color: #3c8dbc!important;
+}
 </style>
