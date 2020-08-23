@@ -1,26 +1,47 @@
 <template>
-<!-- 入场安全教育 -->
+<!-- 危险因素清单 -->
   <div>
 
       <!-- ref="formInline"
       :model="formInline" -->
-      <el-row>
+      <!-- <el-row>
     <el-button icon="el-icon-plus" @click="addInfo()">新增</el-button>
       <el-button icon="el-icon-delete" @click="deleteDatas">批量删除</el-button>
-      <el-button  @click="download()">导出word</el-button>
-      <el-button  @click="download()">导出excel</el-button>
-    </el-row>
+      <el-button  @click="download()">导出</el-button>
+    </el-row> -->
     <el-form
       inline
       label-position="left"
       style="margin-top: 2vh"
     >
-      <el-form-item label="编号">
-        <el-input v-model="searchData.data1"  placeholder="请输入编号" ></el-input>
+      <el-form-item label="培训资料名称">
+        <el-input v-model="searchData.type"  placeholder="请输入培训资料名称" ></el-input>
+      </el-form-item>
+      <el-form-item label="培训资料类型">
+         <el-select v-model="value" placeholder="请选择培训资料类型">
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="培训资料类别">
+         <el-select v-model="value2" placeholder="请选择培训资料类别">
+          <el-option
+            v-for="item in options1"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="success" @click="getRoleList(yearBudgetData)">查询</el-button>
-        <el-button plain @click="download()">下载</el-button>
+        <el-button type="primary" @click="getRoleList(yearBudgetData)">查询</el-button>
+      </el-form-item>
+      <el-form-item style="float:right">
+        <el-button type="primary" icon="el-icon-plus" @click="addInfo()">新增资料信息</el-button>
       </el-form-item>
     </el-form>
     								
@@ -33,73 +54,107 @@
     fit  
     v-loading="tableLoading"
     @selection-change="handleSelectionChange"
-    :data="yearBudgetData">
-    <el-table-column
-      type="selection"
-      width="55">
-    </el-table-column>
-      <el-table-column width="240" align="center" header-align="center"  prop="data1" label="编号"></el-table-column>
-      <el-table-column width="200" align="center" header-align="center"  prop="data2" label="期间"></el-table-column>
-      <el-table-column width="200" align="center" header-align="center"  prop="data3" label="课程名称"></el-table-column>
-      <el-table-column width="200" align="center" header-align="center"  prop="data4" label="授课人"></el-table-column>
-      <el-table-column width="400" align="center" header-align="center"  prop="data5" label="授课时间"></el-table-column>
-      <el-table-column width="200" align="center" header-align="center"  prop="data6" label="授课地点"></el-table-column>
-      <el-table-column width="160" align="center" header-align="center"  prop="data7" label="受教育人数"></el-table-column>
-      <el-table-column width="160" align="center" header-align="center"  prop="data8" label="类型"></el-table-column>
+    :data="yearBudgetData"> 
+      <el-table-column align="center" header-align="center"  prop="line1" label="序号"></el-table-column>
+      <el-table-column align="center" header-align="center"  prop="line2" label="资料类型"></el-table-column>
+      <el-table-column align="center" header-align="center"  prop="line3" label="资料类别"></el-table-column>
+      <el-table-column align="center"  header-align="center" width="250"  label="资料名称">
+         <template slot-scope="scope">
+           <div @click="editData(scope.row,'详情')" style="cursor: pointer">
+                {{scope.row.line4}}
+           </div>
+            </template>
+      </el-table-column>
+      <el-table-column align="center" header-align="center" width="350" prop="line5" label="资料内容"></el-table-column>
+      <el-table-column align="center" header-align="center"  prop="line6" label="阅读人群"></el-table-column>
+      <el-table-column align="center" header-align="center"  prop="line7" label="上传时间"></el-table-column>
+      <el-table-column align="center" header-align="center"  prop="line8" label="上传人员"></el-table-column>
       <el-table-column width="200" label="操作" header-align="center" align="center">
             <template slot-scope="scope">
                 <el-button  type="text" @click="editData(scope.row,'编辑')" size="small">编辑</el-button>
-                <el-button  type="text" @click="editData(scope.row,'详情')" size="small">详情</el-button>
                 <el-button   type="text" @click="deleteData(scope.row)" size="small">删除</el-button>
+                <el-button  type="text" @click="editData(scope.row,'详情')" size="small">禁用</el-button>
 
             </template>
         </el-table-column>
-
     </el-table>   
     <el-drawer
-    style="width:50%;margin:80px auto;"
-    class="safeSkillDrawer"
-  :title="drawerTitle"
-  :visible.sync="drawer"
-  :direction="direction"
-  size="100%"
-  :before-close="handleClose">
+      style="width:50%;margin:80px auto;"
+      class="safeSkillDrawer"
+      :title="drawerTitle"
+      :visible.sync="drawer"
+      :direction="direction"
+      size="100%"
+      :before-close="handleClose">
 
-  <!-- :rules="ruleapproval" -->
-  <el-form :model="addData"  ref="addData" label-width="100px" class="demo-ruleForm">
-
-            <el-form-item  label="编号:" prop="data1">
-                <el-input v-model="addData.data1" :disabled="disabled" placeholder="请输入编号" ></el-input>
-            </el-form-item>
-            <el-form-item  label="期间:" prop="data2">
-                <el-input v-model="addData.data2" :disabled="disabled" placeholder="请输入期间" ></el-input>
-            </el-form-item>
-            <el-form-item  label="课程名称:" prop="data3">
-                <el-input v-model="addData.data3" :disabled="disabled" placeholder="请输入课程名称" ></el-input>
-            </el-form-item>
-            <el-form-item  label="授课人:" prop="data4">
-                <el-input v-model="addData.data4" :disabled="disabled" placeholder="请输入授课人" ></el-input>
-            </el-form-item>
-            <el-form-item  label="授课时间:" prop="data5">
-                <el-input v-model="addData.data5" :disabled="disabled" placeholder="授课时间" ></el-input>
-            </el-form-item>
-            <el-form-item  label="授课地点:" prop="data6">
-                <el-input v-model="addData.data6" :disabled="disabled" placeholder="请输入授课地点" ></el-input>
-            </el-form-item>
-            <el-form-item  label="受教育人数:" prop="data7">
-                <el-input v-model="addData.data7" :disabled="disabled" placeholder="请输入受教育人数" ></el-input>
-            </el-form-item>
-            <el-form-item  label="类型:" prop="data8">
-                <el-input v-model="addData.data8" :disabled="disabled" placeholder="请输入类型" ></el-input>
-            </el-form-item>
-            <el-form-item v-show="!disabled">
-                <div style="text-align:center;margin-right:80px">
-                <el-button type="primary" v-loading="btnLoading" :disabled="btnLoading" @click="submitFormChild('addData')">确定</el-button>
-                <el-button @click="resetForm('addData')">取消</el-button>
-            </div>
-            </el-form-item>
-        </el-form>
-</el-drawer>  
+      <!-- :rules="ruleapproval" -->
+      <el-form :model="addData"  ref="addData"  label-width="auto" class="demo-ruleForm">
+                <el-form-item  label="资料类型:" prop="courseId" class="floats" required>
+                       <el-select v-model="addData.a1" :disabled="disabled" style="width:100%" placeholder="请选择">
+                      <el-option
+                        v-for="item in options"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                      ></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item  label="资料类别:" prop="time1" class="floats" required>
+                         <el-select v-model="addData.a2" :disabled="disabled" style="width:100%" placeholder="请选择">
+                      <el-option
+                        v-for="item in options"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                      ></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item  label="资料名称:" prop="courseName" required>
+                    <el-input v-model="addData.a3" :disabled="disabled" style="width:44%" placeholder="请输入性别" ></el-input>
+                </el-form-item>
+                <el-form-item  label="资料内容:" prop="courseMan" required>
+                    <el-input v-model="addData.a4"   type="textarea" :rows="10" :disabled="disabled" placeholder="请输入员工年龄" ></el-input>
+                </el-form-item>
+                <el-form-item  label="阅读人群:" prop="time2" class="floats" required>
+                        <el-select v-model="addData.a5" :disabled="disabled" style="width:100%" placeholder="请选择">
+                      <el-option
+                        v-for="item in options"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                      ></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item  label="培训计划:" prop="address" class="floats">
+                       <el-select v-model="addData.a6" :disabled="disabled" style="width:100%" placeholder="请选择">
+                      <el-option
+                        v-for="item in options"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                      ></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item  label="音频视频:" prop="type" class="floats">
+                  <el-upload
+                  class="avatar-uploader"
+                  action="https://jsonplaceholder.typicode.com/posts/"
+                  :show-file-list="false"
+                  :on-success="handleAvatarSuccess"
+                  :before-upload="beforeAvatarUpload">
+                  <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                </el-upload>
+                </el-form-item>
+                <div style="height:300px"></div>
+                <el-form-item v-show="!disabled">
+                    <div style="text-align:center;margin-right:80px">
+                    <el-button type="primary" v-loading="btnLoading" :disabled="btnLoading" @click="submitData('addData')">确定</el-button>
+                    <el-button @click="resetForm('addData')">取消</el-button>
+                </div>
+                </el-form-item>
+            </el-form>
+    </el-drawer>  
   </div>
 </template>
 
@@ -116,33 +171,80 @@ export default {
   data() {
       var user = sessionStorage.getItem('user');
       user = JSON.parse(user);
-    return { drawer:false,
+    return {
+        imageUrl: '',
+        options: [{
+          value: '选项1',
+          label: '文档'
+        }, {
+          value: '选项2',
+          label: '文章'
+        }, {
+          value: '选项3',
+          label: '视频'
+        }, {
+          value: '选项4',
+          label: '音频'
+        }],
+        options1:[
+          {
+          value: '选项1',
+          label: '规章制度'
+        }, {
+          value: '选项2',
+          label: '安全生产'
+        }, {
+          value: '选项3',
+          label: '安全事故'
+        }, {
+          value: '选项4',
+          label: '经典案例分享'
+        }, {
+          value: '选项5',
+          label: '新员工培训'
+        }, {
+          value: '选项6',
+          label: '日常资料'
+        }
+        ],
+        value: '',
+        value2: '',
+
+      drawer:false,
       direction: 'ttb',
+      drawerTitle:"",
       addData:{
-         data1: "",
-          data2: "",
-          data3: "",
-          data4: "",
-          data5: "",
-          data6: "",
-          data7: "",
-          data8: "",
+         courseId: "",
+          time1: "",
+          courseName: "",
+          courseMan: "",//风险级别
+          time2: "",//控制措施
+          address: "",//涉及相关方
+          count: "",//所属施工阶段
+          type: "",//检查项归类
       },
       disabled:false,
       btnLoading:false,
-      multipleSelection:[],
-        drawerTitle:"",
-        searchData:{
-          data1:""
-        },
+        multipleSelection: [],
 
-
+      adminDis: false, 
       //表格数据
       tableLoading:false,
       yearBudgetData: [],
       budgetTypeNameArr:[],
       choiseYear:'',
       clientHeight:'',
+      searchData: {
+          type:"",//检查项归类
+          time1:"",//危险因素
+      }, 
+      pickerOptions: {
+          disabledDate: (time) => {
+          
+            var a = formatDate2(new Date(time.getTime()),'yyyy')
+            return a < 2018
+          }
+        },
     };
   },
   mounted() {
@@ -157,33 +259,53 @@ export default {
         this.clientHeight = h - 260;
   },
   methods: {
-       addInfo(){
+    addInfo(){
       this.drawer=true;
-      this.disabled=false;
-       this.addData={
-         data1: "",
-          data2: "",
-          data3: "",
-          data4: "",
-          data5: "",
-          data6: "",
-          data7: "",
-          data8: "",
-      }
-      this.drawerTitle="新增";
-    },
+      this.disabled-false;
+        this.addData={
+         courseId: "",
+          time1: "",
+          courseName: "",
+          courseMan: "",//风险级别
+          time2: "",//控制措施
+          address: "",//涉及相关方
+          count: "",//所属施工阶段
+          type: "",//检查项归类
+      },
+        this.drawerTitle="新增清单";
+    }, 
     handleClose(done) {
           this.drawer = false
           this.drawerDept = false
           this.btnLoading = false
       },
-
       editData(item,title){
         console.log(item);
         this.disabled = title == "编辑" ? false : true ;
-        this.drawerTitle=title;
+        this.drawerTitle=title == "编辑"?"培训资料"+title:"培训资料"+title ;
         this.drawer=true;
         this.addData=item;
+        if(title == "编辑"){
+          this.addData = {
+            a1:"文章",
+            a2:"安全生产",
+            a3:"井内作业时出现火灾应该措施",
+            a4:"在井内作业时，市场内碰到各种各样的突发情况，常见的突发情况包括火灾、井内缺氧、滑体……",
+            a5:"全体人员",
+            a6:"请选择培训计划",
+          }
+        }
+        if(title == "详情"){
+          this.disabled = true;
+          this.addData = {
+            a1:"文章",
+            a2:"安全生产",
+            a3:"井内作业时出现火灾应该措施",
+            a4:"在井内作业时，市场内碰到各种各样的突发情况，常见的突发情况包括火灾、井内缺氧、滑体……",
+            a5:"全体人员",
+            a6:"请选择培训计划",
+          }
+        }
       },
       deleteData(item){
         this.$confirm('确定删除这条数据?', '提示', {
@@ -202,11 +324,6 @@ export default {
           });          
         });
       },
-
-        resetForm(addDeptData) {
-            this.drawer = false
-            this.btnLoading = false
-        },
        handleSelectionChange(val) {
          console.log(val)
         this.multipleSelection = val;
@@ -250,39 +367,58 @@ export default {
             message: '提交成功!'
           });
       },
+        resetForm(addDeptData) {
+            this.drawer = false
+            this.btnLoading = false
+        },
   //下载excel
      download() {
+       this.dateFun();
       const params = qs.stringify(this.searchData)
        
        },
     //搜索
     getRoleList(yearBudgetData) {
+       this.dateFun()
       this.getList();
     },
+    handleAvatarSuccess(res, file) {
+        this.imageUrl = URL.createObjectURL(file.raw);
+      },
+      beforeAvatarUpload(file) {
+        const isJPG = file.type === 'image/jpeg';
+        const isLt2M = file.size / 1024 / 1024 < 2;
 
-
+        if (!isJPG) {
+          this.$message.error('上传头像图片只能是 JPG 格式!');
+        }
+        if (!isLt2M) {
+          this.$message.error('上传头像图片大小不能超过 2MB!');
+        }
+        return isJPG && isLt2M;
+      },
     //获取列表
     getList() {
         console.log(this.searchData);
         this. tableLoading=true
         var dataArr=[{
-          data1: "BH54398-001",
-          data2: "2019年9月第一周",
-          data3: "湖北艺筑建筑有限公司",
-          data4: "网络建设",
-          data5: "人保健康社保、长护业务系统开发及运维等相关项目",
-          data6: "总部,公司领导",
-          data7: 15,
-          data8: "安全",
+          line1: "1",
+          line2: "文章",
+          line3: "经验案例分享",
+          line4: "井内作业时出现火灾应该措施",
+          line5: "在井内作业时，市场内碰到各种各样的突发情况，常见的突发情况包括火灾、井内缺氧、滑体……",
+          line6: "全体人员",
+          line7: "2020-01-10 12:32",
+          line8: "王建伟",
         },{
-          data1: "BH54398-001",
-          data2: "2019年9月第一周",
-          data3: "湖北艺筑建筑有限公司",
-          data4: "网络建设",
-          data5: "人保健康社保、长护业务系统开发及运维等相关项目",
-          data6: "总部,公司领导",
-          data7: 15,
-          data8: "安全",
+          line1: "2",
+          line2: "视频",
+          line3: "规章制度",
+          line4: "安全生产规章制度",
+          line5: "矿区安全生成是一个至关重要的话题，生产过程中的规范是安全生产的一个重要因素，针对……",
+          line6: "全体人员",
+          line7: "2020-01-10 12:32",
+          line8: "王建伟",
         }]
       // yearBudgetData(this.searchData).then(data => {
         this. tableLoading=false;
@@ -294,8 +430,36 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style >
 .textAlignLeft{
   text-align: left;
 }
+.floats{
+width:48%;
+float:left;
+margin-left: 10px;
+}  
+.avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
+  }
 </style>

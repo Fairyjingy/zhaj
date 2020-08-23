@@ -47,7 +47,7 @@ let routes = [
       { path: '/numAnalysis', component:NumAnalysis , name: '统计分析',meta: { requiresAuth: true }, },
       { path: '/safeUrgent', component:safeUrgent , name: '安全应急',meta: { requiresAuth: true }, },
       { path: '/approval', component:Approval , name: '审批管理',meta: { requiresAuth: true }, },
-      { path: '/disclosesafeskill', component:disclosesafeskill , name: '安全技术交底',meta: { requiresAuth: true }, },
+      // { path: '/disclosesafeskill', component:disclosesafeskill , name: '安全技术交底',meta: { requiresAuth: true }, },
       { path: '/safeSkill', component:SafeSkill , name: '安全技术管理',meta: { requiresAuth: true }, },
     ]
 },
@@ -100,17 +100,17 @@ let routes = [
       { path: '/subcontractsafeappraise', component:subcontractsafeappraise , name: '分包安全考核',meta: { requiresAuth: true }, },
     ]
 },
-{
-  path:"/echarts",
-  component:echarts,
-  name:"大数据中心",
-  children:[
-    { path: '/safeEducationEchart', component:safeEducationEchart , name: '安全教育',meta: { requiresAuth: true }, },
-    { path: '/dangerFactorEchart', component:dangerFactorEchart , name: '危险因素',meta: { requiresAuth: true }, },
-    { path: '/dangerProjectEchart', component:dangerProjectEchart , name: '危险工程',meta: { requiresAuth: true }, },
-    { path: '/safeTestEchart', component:safeTestEchart , name: '安全考核',meta: { requiresAuth: true }, },
-  ]
-},
+// {
+//   path:"/echarts",
+//   component:echarts,
+//   name:"大数据中心",
+//   children:[
+//     { path: '/safeEducationEchart', component:safeEducationEchart , name: '安全教育',meta: { requiresAuth: true }, },
+//     { path: '/dangerFactorEchart', component:dangerFactorEchart , name: '危险因素',meta: { requiresAuth: true }, },
+//     { path: '/dangerProjectEchart', component:dangerProjectEchart , name: '危险工程',meta: { requiresAuth: true }, },
+//     { path: '/safeTestEchart', component:safeTestEchart , name: '安全考核',meta: { requiresAuth: true }, },
+//   ]
+// },
   // {
   //     path: '*',
   //     hidden: true,

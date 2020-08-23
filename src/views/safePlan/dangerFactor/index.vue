@@ -32,7 +32,9 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="getRoleList(yearBudgetData)">查询</el-button>
-        <el-button icon="el-icon-plus" @click="addInfo()">新增人员信息</el-button>
+      </el-form-item>
+      <el-form-item style="float:right">
+        <el-button type="primary" icon="el-icon-plus" @click="addInfo()">新增人员信息</el-button>
       </el-form-item>
     </el-form>
     								
@@ -46,10 +48,6 @@
     v-loading="tableLoading"
     @selection-change="handleSelectionChange"
     :data="yearBudgetData"> 
-    <!-- <el-table-column
-      type="selection"
-      width="55">
-    </el-table-column> -->
       <el-table-column width="80" align="center" header-align="center"  prop="line1" label="序号"></el-table-column>
       <el-table-column width="80" align="center" header-align="center"  prop="line2" label="姓名"></el-table-column>
       <el-table-column width="120" align="center" header-align="center"  prop="line3" label="手机号码"></el-table-column>
@@ -79,31 +77,50 @@
       :before-close="handleClose">
 
       <!-- :rules="ruleapproval" -->
-      <el-form :model="addData"  ref="addData" label-width="120px" class="demo-ruleForm">
-
-                <el-form-item  label="作业活动:" prop="courseId">
-                    <el-input v-model="addData.courseId" :disabled="disabled" placeholder="请输入作业活动" ></el-input>
+      <el-form :model="addData"  ref="addData"  label-width="auto" class="demo-ruleForm">
+                <el-form-item  label="姓名:" prop="courseId" class="floats" required>
+                    <el-input v-model="addData.a1" :disabled="disabled" placeholder="请输入姓名" ></el-input>
                 </el-form-item>
-                <el-form-item  label="危险因素:" prop="time1">
-                    <el-input v-model="addData.time1" :disabled="disabled" placeholder="请输入危险因素" ></el-input>
+                <el-form-item  label="手机号码:" prop="time1" class="floats" required>
+                    <el-input v-model="addData.a2" :disabled="disabled" placeholder="请输入手机号码" ></el-input>
                 </el-form-item>
-                <el-form-item  label="可能导致的事故:" prop="courseName">
-                    <el-input v-model="addData.courseName" :disabled="disabled" placeholder="请输入可能导致的事故" ></el-input>
+                <el-form-item  label="性别:" prop="courseName" class="floats" required>
+                    <el-input v-model="addData.a3" :disabled="disabled" placeholder="请输入性别" ></el-input>
                 </el-form-item>
-                <el-form-item  label="风险级别:" prop="courseMan">
-                    <el-input v-model="addData.courseMan" :disabled="disabled" placeholder="请输入风险级别" ></el-input>
+                <el-form-item  label="员工年龄:" prop="courseMan" class="floats" required>
+                    <el-input v-model="addData.a4" :disabled="disabled" placeholder="请输入员工年龄" ></el-input>
                 </el-form-item>
-                <el-form-item  label="控制措施:" prop="time2">
-                    <el-input v-model="addData.time2" :disabled="disabled" placeholder="控制措施" ></el-input>
+                <el-form-item  label="工种:" prop="time2" class="floats" required>
+                    <el-input v-model="addData.a5" :disabled="disabled" placeholder="工种" ></el-input>
                 </el-form-item>
-                <el-form-item  label="涉及相关方:" prop="address">
-                    <el-input v-model="addData.address" :disabled="disabled" placeholder="请输入涉及相关方" ></el-input>
+                <el-form-item  label="工作范围:" prop="address" class="floats" required>
+                    <el-input v-model="addData.a6" :disabled="disabled" placeholder="请输入工作范围" ></el-input>
                 </el-form-item>
-                <el-form-item  label="所属施工阶段:" prop="count">
-                    <el-input v-model="addData.count" :disabled="disabled" placeholder="请输入所属施工阶段" ></el-input>
+                <el-form-item  label="工作年限:" prop="count" class="floats">
+                    <el-input v-model="addData.a7" :disabled="disabled" placeholder="请输入工作年限" ></el-input>
                 </el-form-item>
-                <el-form-item  label="检查项归类:" prop="type">
-                    <el-input v-model="addData.type" :disabled="disabled" placeholder="请输入检查项归类" ></el-input>
+                <el-form-item  label="培训次数:" prop="type" class="floats">
+                    <el-input v-model="addData.a8" disabled placeholder="请输入培训次数" ></el-input>
+                </el-form-item>
+                <el-form-item  label="家庭住址:" prop="type" class="floats">
+                    <el-input v-model="addData.a9" :disabled="disabled" placeholder="请输入家庭住址" ></el-input>
+                </el-form-item>
+                <el-form-item  label="出现事故次数:" prop="type" class="floats">
+                    <el-input v-model="addData.a10" disabled placeholder="请输入出现事故次数" ></el-input>
+                </el-form-item>
+                <el-form-item  label="详细地址:" prop="type" class="floats">
+                    <el-input v-model="addData.a11"  type="textarea" :rows="4" :disabled="disabled" placeholder="请输入详细地址" ></el-input>
+                </el-form-item>
+                <el-form-item  label="附件信息:" prop="type" class="floats">
+                  <el-upload
+                  class="avatar-uploader"
+                  action="https://jsonplaceholder.typicode.com/posts/"
+                  :show-file-list="false"
+                  :on-success="handleAvatarSuccess"
+                  :before-upload="beforeAvatarUpload">
+                  <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                </el-upload>
                 </el-form-item>
                 <el-form-item v-show="!disabled">
                     <div style="text-align:center;margin-right:80px">
@@ -130,6 +147,7 @@ export default {
       var user = sessionStorage.getItem('user');
       user = JSON.parse(user);
     return {
+        imageUrl: '',
         options: [{
           value: '选项1',
           label: '0-12'
@@ -220,9 +238,24 @@ export default {
       editData(item,title){
         console.log(item);
         this.disabled = title == "编辑" ? false : true ;
-        this.drawerTitle=title == "编辑"?title+"清单":"清单"+title ;
+        this.drawerTitle=title == "编辑"?"用户信息"+title:"用户信息"+title ;
         this.drawer=true;
         this.addData=item;
+        if(title == "编辑"){
+          this.addData = {
+            a1:"孙建伟",
+            a2:"18632107571",
+            a3:"男",
+            a4:"45",
+            a5:"矿工",
+            a6:"天山矿区 --  1号井",
+            a7:"10",
+            a8:"3",
+            a9:"北京市 --  朝阳区",
+            a10:"3",
+            a11:"广渠门外大街8号。",
+          }
+        }
       },
       deleteData(item){
         this.$confirm('确定删除这条数据?', '提示', {
@@ -299,7 +332,21 @@ export default {
        this.dateFun()
       this.getList();
     },
+    handleAvatarSuccess(res, file) {
+        this.imageUrl = URL.createObjectURL(file.raw);
+      },
+      beforeAvatarUpload(file) {
+        const isJPG = file.type === 'image/jpeg';
+        const isLt2M = file.size / 1024 / 1024 < 2;
 
+        if (!isJPG) {
+          this.$message.error('上传头像图片只能是 JPG 格式!');
+        }
+        if (!isLt2M) {
+          this.$message.error('上传头像图片大小不能超过 2MB!');
+        }
+        return isJPG && isLt2M;
+      },
     //获取列表
     getList() {
         console.log(this.searchData);
@@ -337,8 +384,36 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style >
 .textAlignLeft{
   text-align: left;
 }
+.floats{
+width:48%;
+float:left;
+margin-left: 10px;
+}  
+.avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
+  }
 </style>

@@ -5,20 +5,39 @@
       <!-- ref="formInline"
       :model="formInline" --> 
       <el-row>
-    <el-button icon="el-icon-plus" @click="addInfo()">新增</el-button>
-      <el-button icon="el-icon-delete" @click="deleteDatas">批量删除</el-button>
-      <el-button  @click="download()">导出word</el-button>
     </el-row>
     <el-form
       inline
       label-position="left"
       style="margin-top: 2vh"
     >
-      <el-form-item label="编号">
-        <el-input v-model="searchData.courseId" clearable  placeholder="请输入编号" ></el-input>
+      <el-form-item label="试题内容">
+        <el-input v-model="searchData.courseId" clearable  placeholder="请输入试题内容" ></el-input>
+      </el-form-item>
+      <el-form-item label="试题类型">
+         <el-select v-model="valueT" placeholder="请选择试题类型">
+          <el-option
+            v-for="item in optionsT"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="试题类别">
+         <el-select v-model="valueC" placeholder="请选择试题类别">
+          <el-option
+            v-for="item in optionsC"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item>
         <el-button type="success" @click="getRoleList(yearBudgetData)">查询</el-button>
+        <el-button icon="el-icon-plus" @click="addInfo()">新增试题信息</el-button>
+        <el-button  @click="download()">试题导入</el-button>
       </el-form-item>
     </el-form>
                     
@@ -32,18 +51,22 @@
     v-loading="tableLoading"
     @selection-change="handleSelectionChange"
     :data="yearBudgetData">
-    <el-table-column
+    <!-- <el-table-column
       type="selection"
       width="55">
-    </el-table-column>
-      <el-table-column width="140" align="center" header-align="center"  prop="data1" label="编号"></el-table-column>
-      <el-table-column width="200" align="center" header-align="center"  prop="data2" label="期间"></el-table-column>
-      <el-table-column  align="center" header-align="center"  prop="data3" label="备注"></el-table-column>
+    </el-table-column> -->
+      <el-table-column width="80" align="center" header-align="center"  prop="line1" label="序号"></el-table-column>
+      <el-table-column width="80" align="center" header-align="center"  prop="line2" label="试题类型"></el-table-column>
+      <el-table-column width="120" align="center" header-align="center"  prop="line3" label="试题类别"></el-table-column>
+      <el-table-column width="420" align="center"  header-align="center"  prop="line4" label="试题内容"></el-table-column>
+      <el-table-column width="100" align="center" header-align="center"  prop="line5" label="试题答案"></el-table-column>
+      <el-table-column width="120" align="center" header-align="center"  prop="line6" label="创建时间"></el-table-column>
+      <el-table-column width="100" align="center" header-align="center"  prop="line7" label="创建人员"></el-table-column>
+      <el-table-column width="120" align="center" header-align="center"  prop="line8" label="出现事故次数"></el-table-column>
       <el-table-column width="200" label="操作" header-align="center" align="center">
             <template slot-scope="scope">
                 <el-button  type="text" @click="editData(scope.row,'编辑')" size="small">编辑</el-button>
-                <el-button  type="text" @click="editData(scope.row,'详情')" size="small">详情</el-button>
-                <el-button   type="text" @click="deleteData(scope.row)" size="small">删除</el-button>
+                <el-button   type="text" @click="deleteData(scope.row)" size="small">禁用</el-button>
 
             </template>
         </el-table-column>
@@ -61,7 +84,7 @@
   <!-- :rules="ruleapproval" -->
   <el-form :model="addData"  ref="addData" label-width="100px" class="demo-ruleForm">
 
-            <el-form-item  label="编号:" prop="data1">
+            <el-form-item width="50"  label="编号:" prop="data1">
                 <el-input v-model="addData.data1" :disabled="disabled" placeholder="请输入编号" ></el-input>
             </el-form-item>
             <el-form-item  label="期间:" prop="data2">
@@ -95,6 +118,34 @@ export default {
       var user = sessionStorage.getItem('user');
       user = JSON.parse(user);
     return {
+
+        optionsT: [{
+          value: '选项1',
+          label: '单选题'
+        }, {
+          value: '选项2',
+          label: '多选题'
+        }, {
+          value: '选项3',
+          label: '简答题'
+        }, {
+          value: '选项4',
+          label: '填空题'
+        }],
+        valueT: '',
+
+        optionsC: [{
+          value: '选项1',
+          label: '安全教育'
+        }, {
+          value: '选项2',
+          label: '安全生产'
+        }, {
+          value: '选项3',
+          label: '规章制度'
+        }],
+        valueC: '',
+
         drawer:false,
       direction: 'ttb',
       addData:{
@@ -156,19 +207,19 @@ export default {
         this.addData=item;
       },
       deleteData(item){
-        this.$confirm('确定删除这条数据?', '提示', {
+        this.$confirm('确定禁用这条数据?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
           this.$message({
             type: 'success',
-            message: '删除成功!'
+            message: '禁用成功!'
           });
         }).catch(() => {
           this.$message({
             type: 'info',
-            message: '已取消删除'
+            message: '已取消禁用'
           });          
         });
       },
@@ -235,14 +286,33 @@ export default {
         console.log(this.searchData);
         this. tableLoading=true
         var dataArr=[{
-          data1: "BH54398-001",
-          data2: "2019年9月第一周",
-          data3: "本工程K2地段为整体两层地下室",
+          line1: "1",
+          line2: "选择题",
+          line3: "安全规范",
+          line4: "电气化区段平交通口架与线路钢轨外侧的距离不得少于（    ）米？\nA：10    B：11    C：12     D：13",
+          line5: "B",
+          line6: "2020-01-02",
+          line7: "王伟健",
+          line8: "2",
         },{
-          data1: "BH54398-001",
-          data2: "2019年9月第一周",
-          data3: "本工程K2地段为整体两层地下室",
-        }]
+          line1: "2",
+          line2: "选择题",
+          line3: "安全生产",
+          line4: "电气化区段平交通口架与线路钢轨内侧的距离不得多于（    ）米？  \nA：10    B：11    C：12     D：13",
+          line5: "B",
+          line6: "2020-01-02",
+          line7: "王伟健",
+          line8: "2",
+        },{
+          line1: "3",
+          line2: "选择题",
+          line3: "安全生产",
+          line4: "按照公司规章制度，新员工入职后需要在（     ）个工作日内提交全部的入职资料？  \nA：10    B：11    C：12     D：13",
+          line5: "B",
+          line6: "2020-01-02",
+          line7: "王伟健",
+          line8: "2",
+        },]
       // yearBudgetData(this.searchData).then(data => {
         this. tableLoading=false;
 
@@ -257,6 +327,14 @@ export default {
 <style scoped>
 .textAlignLeft{
   text-align: left;
+}
+.demo-ruleForm .el-form-item{
+  float: left;
+  width:50%;
+}
+.demo-ruleForm .el-form-item:last-child{
+  float: left;
+  width:100%;
 }
 </style>
 
