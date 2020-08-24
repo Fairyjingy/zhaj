@@ -94,9 +94,9 @@ let routes = [
 {
     path: '/appraise',
     component: Index,
-    name: '安全考核',
+    name: '考核结果分析',
     children: [
-      { path: '/managerSafeappraise', component:managerSafeappraise , name: '管理层安全考核',meta: { requiresAuth: true }, },
+      { path: '/managerSafeappraise', component:managerSafeappraise , name: '考核结果分析',meta: { requiresAuth: true }, },
       { path: '/subcontractsafeappraise', component:subcontractsafeappraise , name: '分包安全考核',meta: { requiresAuth: true }, },
     ]
 },
