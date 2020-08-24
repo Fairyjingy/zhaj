@@ -23,6 +23,7 @@ import check from '@/views/dangerproject/check'
 import safeUrgent from '@/views/safeUrgent'
 import managerSafeappraise from '@/views/appraise/managerSafeappraise'
 import subcontractsafeappraise from '@/views/appraise/subcontractsafeappraise'
+import message from '@/views/theMessage/message'
 import echarts from '@/views/echarts/echart'
 import safeEducationEchart from '@/views/echarts/safeEducation'
 import dangerFactorEchart from '@/views/echarts/dangerFactor'
@@ -98,6 +99,14 @@ let routes = [
     children: [
       { path: '/managerSafeappraise', component:managerSafeappraise , name: '考核结果分析',meta: { requiresAuth: true }, },
       { path: '/subcontractsafeappraise', component:subcontractsafeappraise , name: '分包安全考核',meta: { requiresAuth: true }, },
+    ]
+},
+{
+    path: '/theMessage',
+    component: Index,
+    name: '消息通知管理',
+    children: [
+      { path: '/message', component:message , name: '消息中心',meta: { requiresAuth: true }, },
     ]
 },
 // {
